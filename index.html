@@ -1,4 +1,4 @@
-    document.getElementByI<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,11 +17,18 @@ body {
   align-items: center;
   padding: 15px;
   background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-.navbar img {
+.logo {
   width: 50px;
+  height: 50px;
+  border-radius: 50%;
   margin-right: 10px;
+}
+
+.navbar h2 {
+  color: #0d47a1;
 }
 
 /* Hero */
@@ -45,7 +52,7 @@ body {
   text-decoration: none;
   border-radius: 25px;
   margin-top: 15px;
-  cursor: pointer;
+  display: inline-block;
 }
 
 .test-btn {
@@ -66,20 +73,21 @@ body {
   margin: 15px;
   width: 280px;
   border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
-/* Mock Test */
-#quiz {
-  display: none;
-  text-align: left;
-  max-width: 600px;
-  margin: auto;
+/* Quiz */
+#quiz-box {
   background: white;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 15px;
+  max-width: 400px;
+  margin: auto;
+  text-align: left;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
 }
 
-.timer {
+#timer {
   color: red;
   font-weight: bold;
 }
@@ -98,7 +106,8 @@ body {
 
 <!-- Navbar -->
 <div class="navbar">
-  <img src="logo.png">
+  <!-- ✅ FIXED LOGO (Online link so kabhi gayab nahi hoga) -->
+  <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="logo">
   <h2>AREA INDIA FOUNDATION</h2>
 </div>
 
@@ -107,13 +116,10 @@ body {
   <h1>Support Education & Humanity ❤️</h1>
   <p>Research | Assess | Educate | Empower</p>
 
-  <!-- UPDATED UPI -->
-  <a href="upi://pay?pa=8750752884-2@ibl&pn=Donation&cu=INR" class="btn">
+  <!-- ✅ UPI DONATE -->
+  <a href="upi://pay?pa=8750752884-2@ibl&pn=AREA%20INDIA%20FOUNDATION&cu=INR"
+     class="btn">
     Donate via UPI 💰
-  </a>
-
-  <a onclick="startTest()" class="btn test-btn">
-    📝 Exam Mock Test
   </a>
 </div>
 
@@ -121,73 +127,42 @@ body {
 <div class="section">
   <h2>What We Do</h2>
 
-  <div class="card">
-    <h3>📚 Education Support</h3>
-  </div>
-
-  <div class="card">
-    <h3>🏥 Health Programs</h3>
-  </div>
-
-  <div class="card">
-    <h3>🎯 Skill Development</h3>
-  </div>
+  <div class="card">📚 Education Support</div>
+  <div class="card">🏥 Health Programs</div>
+  <div class="card">🎯 Skill Development</div>
 </div>
 
-<!-- QUIZ -->
-<div id="quiz">
-  <h2>Mock Test</h2>
-  <div class="timer" id="timer">Time Left: 120s</div>
+<!-- ULTRA MOCK TEST -->
+<div class="section">
+  <h2>Exam Mock Test</h2>
 
-  <form id="quizForm">
+  <input type="text" id="username" placeholder="Enter Your Name" style="padding:10px;width:80%;margin-bottom:15px;">
 
-  <p>1. India ki capital kya hai?</p>
-  <input type="radio" name="q1" value="1"> Delhi<br>
-  <input type="radio" name="q1" value="0"> Mumbai<br>
-  <input type="radio" name="q1" value="0"> Kolkata<br>
+  <div id="quiz-box">
 
-  <p>2. 10 ÷ 2 = ?</p>
-  <input type="radio" name="q2" value="1"> 5<br>
-  <input type="radio" name="q2" value="0"> 4<br>
+    <div id="timer">Time Left: 60s</div>
 
-  <p>3. 5 × 5 = ?</p>
-  <input type="radio" name="q3" value="1"> 25<br>
-  <input type="radio" name="q3" value="0"> 20<br>
+    <p>1. India ki capital kya hai?</p>
+    <input type="radio" name="q1" value="b"> Delhi<br>
+    <input type="radio" name="q1" value="a"> Mumbai<br>
+    <input type="radio" name="q1" value="c"> Kolkata<br>
 
-  <p>4. Sun rises from?</p>
-  <input type="radio" name="q4" value="1"> East<br>
-  <input type="radio" name="q4" value="0"> West<br>
+    <p>2. 10 ÷ 2 = ?</p>
+    <input type="radio" name="q2" value="a"> 5<br>
+    <input type="radio" name="q2" value="b"> 4<br>
+    <input type="radio" name="q2" value="c"> 6<br>
 
-  <p>5. Water formula?</p>
-  <input type="radio" name="q5" value="1"> H2O<br>
-  <input type="radio" name="q5" value="0"> CO2<br>
+    <p>3. National animal?</p>
+    <input type="radio" name="q3" value="b"> Tiger<br>
+    <input type="radio" name="q3" value="a"> Lion<br>
+    <input type="radio" name="q3" value="c"> Dog<br>
 
-  <p>6. 15 + 5 = ?</p>
-  <input type="radio" name="q6" value="1"> 20<br>
-  <input type="radio" name="q6" value="0"> 25<br>
+    <br>
+    <button onclick="submitQuiz()" class="btn test-btn">Submit 🚀</button>
 
-  <p>7. National animal of India?</p>
-  <input type="radio" name="q7" value="1"> Tiger<br>
-  <input type="radio" name="q7" value="0"> Lion<br>
+    <h3 id="result"></h3>
 
-  <p>8. 9 × 3 = ?</p>
-  <input type="radio" name="q8" value="1"> 27<br>
-  <input type="radio" name="q8" value="0"> 21<br>
-
-  <p>9. Currency of India?</p>
-  <input type="radio" name="q9" value="1"> Rupee<br>
-  <input type="radio" name="q9" value="0"> Dollar<br>
-
-  <p>10. Largest planet?</p>
-  <input type="radio" name="q10" value="1"> Jupiter<br>
-  <input type="radio" name="q10" value="0"> Earth<br>
-
-  <br>
-  <button type="button" onclick="submitQuiz()">Submit</button>
-
-  </form>
-
-  <h3 id="result"></h3>
+  </div>
 </div>
 
 <!-- Footer -->
@@ -195,39 +170,35 @@ body {
   <p>© 2025 AREA INDIA FOUNDATION</p>
 </div>
 
+<!-- JS -->
 <script>
-function startTest(){
-  document.getElementById("quiz").style.display="block";
-  window.scrollTo(0,document.body.scrollHeight);
-}
+let timeLeft = 60;
 
-// TIMER
-let time = 120;
-setInterval(()=>{
-  if(time>0){
-    time--;
-    document.getElementById("timer").innerText="Time Left: "+time+"s";
+let timer = setInterval(function() {
+  document.getElementById("timer").innerHTML = "Time Left: " + timeLeft + "s";
+  timeLeft--;
+
+  if (timeLeft < 0) {
+    clearInterval(timer);
+    submitQuiz();
   }
-},1000);
+}, 1000);
 
-// RESULT
-function submitQuiz(){
+function submitQuiz() {
+  clearInterval(timer);
+
   let score = 0;
-  let form = document.forms["quizForm"];
 
-  for(let i=1;i<=10;i++){
-    let q = form["q"+i];
-    if(q){
-      for(let j=0;j<q.length;j++){
-        if(q[j].checked){
-          score += Number(q[j].value);
-        }
-      }
-    }
-  }
+  if (document.querySelector('input[name="q1"]:checked')?.value === "b") score++;
+  if (document.querySelector('input[name="q2"]:checked')?.value === "a") score++;
+  if (document.querySelector('input[name="q3"]:checked')?.value === "b") score++;
 
-  document.getElementById("result").innerText =
-    "Your Score: " + score + "/10";
+  let name = document.getElementById("username").value;
+
+  let percent = (score/3)*100;
+
+  document.getElementById("result").innerHTML =
+    "👤 " + name + "<br>Score: " + score + "/3<br>📊 " + percent + "%";
 }
 </script>
 
