@@ -9,7 +9,7 @@
 /* 🌍 Global */
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Arial', sans-serif;
   background: #f5f7fa;
 }
 
@@ -21,12 +21,19 @@ body {
   padding: 15px 20px;
   background: white;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  position: sticky;
-  top: 0;
 }
 
 .logo {
-  font-size: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  width: 40px;
+  margin-right: 10px;
+}
+
+.logo span {
   font-weight: bold;
   color: #d32f2f;
 }
@@ -34,19 +41,19 @@ body {
 /* 🚀 Hero */
 .hero {
   height: 90vh;
-  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)),
-              url('https://source.unsplash.com/1600x900/?charity');
+  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+              url('https://source.unsplash.com/1600x900/?charity,children');
   background-size: cover;
+  color: white;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: white;
   text-align: center;
-  flex-direction: column;
 }
 
 .hero h1 {
-  font-size: 32px;
+  font-size: 35px;
 }
 
 .hero p {
@@ -61,7 +68,6 @@ body {
   border-radius: 30px;
   text-decoration: none;
   margin-top: 15px;
-  display: inline-block;
   transition: 0.3s;
 }
 
@@ -73,14 +79,6 @@ body {
 .section {
   padding: 50px 20px;
   text-align: center;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: 0.6s;
-}
-
-.section.show {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 /* 📦 Cards */
@@ -95,7 +93,7 @@ body {
 }
 
 /* 🖼 Gallery */
-.gallery {
+.gallery img {
   width: 300px;
   margin: 10px;
   border-radius: 10px;
@@ -108,7 +106,7 @@ body {
   padding: 40px;
 }
 
-/* 📱 WhatsApp */
+/* 💬 WhatsApp */
 .whatsapp {
   position: fixed;
   bottom: 20px;
@@ -135,38 +133,45 @@ body {
 
 <!-- 🔝 Navbar -->
 <div class="navbar">
-  <div class="logo">AREA INDIA FOUNDATION</div>
+  <div class="logo">
+    <!-- 👉 LOGO CHANGE KARNA HO TO YAHAN IMAGE URL DALNA -->
+    <img src="https://cdn-icons-png.flaticon.com/512/2913/2913465.png">
+    <span>AREA INDIA FOUNDATION</span>
+  </div>
 </div>
 
 <!-- 🚀 Hero -->
 <div class="hero">
   <h1>Support Humanity ❤️</h1>
   <p>Together we can make a difference</p>
+
+  <!-- 💰 Donate Button -->
   <a href="https://razorpay.me/@Areaindiafoundation" class="btn">
-    Donate Now
+    ❤️ Donate Now
   </a>
 </div>
 
 <!-- 💎 Work -->
 <div class="section">
   <h2>Our Work</h2>
-  <div class="card">Education 📚</div>
-  <div class="card">Food Help 🍛</div>
-  <div class="card">Health 🏥</div>
+  <div class="card">📚 Education Support</div>
+  <div class="card">🍛 Food Distribution</div>
+  <div class="card">🏥 Health Camps</div>
 </div>
 
 <!-- 🖼 Gallery -->
-<div class="section">
+<div class="section gallery">
   <h2>Gallery</h2>
-  <img src="https://source.unsplash.com/300x200/?charity" class="gallery">
-  <img src="https://source.unsplash.com/300x200/?helping" class="gallery">
-  <img src="https://source.unsplash.com/300x200/?children" class="gallery">
+  <img src="https://source.unsplash.com/300x200/?charity">
+  <img src="https://source.unsplash.com/300x200/?helping">
+  <img src="https://source.unsplash.com/300x200/?poor-children">
 </div>
 
 <!-- 📞 Contact -->
 <div class="contact">
-  <h2>Contact</h2>
+  <h2>Contact Us</h2>
   <p>📞 8796577598</p>
+  <p>📧 areaindiafoundation@gmail.com</p>
 </div>
 
 <!-- 💬 WhatsApp -->
@@ -176,17 +181,6 @@ body {
 <div class="footer">
   <p>© 2025 AREA INDIA FOUNDATION</p>
 </div>
-
-<!-- 🔥 Scroll Animation -->
-<script>
-window.addEventListener("scroll", function() {
-  document.querySelectorAll(".section").forEach(function(el) {
-    if (el.getBoundingClientRect().top < window.innerHeight - 100) {
-      el.classList.add("show");
-    }
-  });
-});
-</script>
 
 </body>
 </html>
