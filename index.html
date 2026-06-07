@@ -41,7 +41,6 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
 }
 
 /* Button */
@@ -51,49 +50,23 @@ body {
   padding: 12px 25px;
   text-decoration: none;
   border-radius: 30px;
-  margin-top: 15px;
-  transition: 0.3s;
-}
-
-.btn:hover {
-  background: #d32f2f;
+  margin: 10px;
+  display: inline-block;
 }
 
 /* Section */
 .section {
-  padding: 50px 20px;
+  padding: 40px;
   text-align: center;
 }
 
-/* Cards */
+/* Card */
 .card {
   display: inline-block;
   background: white;
-  padding: 25px;
-  margin: 15px;
-  width: 260px;
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  transition: 0.3s;
-}
-
-.card:hover {
-  transform: translateY(-10px);
-}
-
-.card h3 {
-  color: #0d47a1;
-}
-
-.card p {
-  font-size: 14px;
-  color: #555;
-}
-
-/* Gallery */
-.gallery img {
-  width: 300px;
+  padding: 20px;
   margin: 10px;
+  width: 260px;
   border-radius: 10px;
 }
 
@@ -130,7 +103,6 @@ body {
 
 <!-- Navbar -->
 <div class="navbar">
-  <!-- Agar logo show na ho to image path check karo -->
   <img src="logo.png" onerror="this.src='https://via.placeholder.com/50'">
   <h2>AREA INDIA FOUNDATION</h2>
 </div>
@@ -140,39 +112,36 @@ body {
   <h1>Support Education & Humanity ❤️</h1>
   <p>Research | Assess | Educate | Empower</p>
 
-  <!-- UPI BUTTON -->
   <a href="upi://pay?pa=8750752884-2@ibl&pn=AreaIndiaFoundation&cu=INR" class="btn">
     Donate via UPI 💰
   </a>
+
+  <a href="#mocktest" class="btn">📝 Start Mock Test</a>
 </div>
 
-<!-- Work -->
+<!-- MOCK TEST -->
+<div class="section" id="mocktest">
+  <h2>📝 Mock Test</h2>
+  <div id="quiz"></div>
+  <button class="btn" onclick="submitQuiz()">Submit</button>
+  <h3 id="result"></h3>
+</div>
+
+<!-- ADMIN PANEL -->
 <div class="section">
-  <h2>What We Do</h2>
+  <h2>🔐 Admin Panel</h2>
 
-  <div class="card">
-    <h3>📚 Education Support</h3>
-    <p>We provide free education, books and digital learning support to needy children.</p>
-  </div>
+  <input type="text" id="question" placeholder="Question"><br><br>
+  <input type="text" id="opt1" placeholder="Option 1"><br><br>
+  <input type="text" id="opt2" placeholder="Option 2"><br><br>
+  <input type="text" id="opt3" placeholder="Option 3"><br><br>
+  <input type="text" id="opt4" placeholder="Option 4"><br><br>
+  <input type="text" id="answer" placeholder="Correct Answer"><br><br>
 
-  <div class="card">
-    <h3>🏥 Health Programs</h3>
-    <p>We organize medical camps and health awareness programs in rural areas.</p>
-  </div>
+  <button class="btn" onclick="addQuestion()">Add Question</button>
 
-  <div class="card">
-    <h3>🎯 Skill Development</h3>
-    <p>We train youth with skills to help them become self-dependent.</p>
-  </div>
-</div>
-
-<!-- Gallery -->
-<div class="section gallery">
-  <h2>Our Work</h2>
-
-  <img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d">
-  <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644">
-  <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c">
+  <h3>Saved Questions</h3>
+  <div id="adminList"></div>
 </div>
 
 <!-- Contact -->
@@ -183,13 +152,110 @@ body {
   <p>💳 UPI: 8750752884-2@ibl</p>
 </div>
 
-<!-- WhatsApp -->
 <a href="https://wa.me/918796577598" class="whatsapp">💬</a>
 
-<!-- Footer -->
 <div class="footer">
   <p>© 2025 AREA INDIA FOUNDATION</p>
 </div>
+
+<script>
+// DEFAULT QUESTIONS (FIRST TIME)
+let defaultData = [
+  {q:"2+2=?",options:["3","4","5","6"],answer:"4"},
+  {q:"Capital of India?",options:["Delhi","Mumbai","Kolkata","Chennai"],answer:"Delhi"}
+];
+
+// LOAD DATA
+let questions = JSON.parse(localStorage.getItem("quizData")) || defaultData;
+
+// SAVE
+function saveData(){
+  localStorage.setItem("quizData", JSON.stringify(questions));
+}
+
+// LOAD QUIZ
+function loadQuiz(){
+  let quiz = document.getElementById("quiz");
+  quiz.innerHTML = "";
+
+  questions.forEach((q,index)=>{
+    let html = `<div class="card"><h3>Q${index+1}: ${q.q}</h3>`;
+    q.options.forEach(opt=>{
+      html += `<label><input type="radio" name="q${index}" value="${opt}"> ${opt}</label><br>`;
+    });
+    html += `</div>`;
+    quiz.innerHTML += html;
+  });
+}
+
+// SUBMIT
+function submitQuiz(){
+  let score = 0;
+
+  questions.forEach((q,index)=>{
+    let selected = document.querySelector(`input[name="q${index}"]:checked`);
+    if(selected && selected.value === q.answer){
+      score++;
+    }
+  });
+
+  document.getElementById("result").innerText =
+    "Score: " + score + "/" + questions.length;
+}
+
+// ADMIN ADD
+function addQuestion(){
+  let q = question.value;
+  let o1 = opt1.value;
+  let o2 = opt2.value;
+  let o3 = opt3.value;
+  let o4 = opt4.value;
+  let ans = answer.value;
+
+  if(!q || !o1 || !o2 || !o3 || !o4 || !ans){
+    alert("Fill all fields");
+    return;
+  }
+
+  questions.push({
+    q:q,
+    options:[o1,o2,o3,o4],
+    answer:ans
+  });
+
+  saveData();
+  renderAdmin();
+  loadQuiz();
+}
+
+// DELETE
+function deleteQ(i){
+  questions.splice(i,1);
+  saveData();
+  renderAdmin();
+  loadQuiz();
+}
+
+// ADMIN VIEW
+function renderAdmin(){
+  let list = document.getElementById("adminList");
+  list.innerHTML = "";
+
+  questions.forEach((q,i)=>{
+    list.innerHTML += `
+      <div class="card">
+        ${q.q}
+        <br><button onclick="deleteQ(${i})">❌ Delete</button>
+      </div>`;
+  });
+}
+
+// INIT
+window.onload = ()=>{
+  loadQuiz();
+  renderAdmin();
+}
+</script>
 
 </body>
 </html>
