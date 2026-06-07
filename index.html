@@ -20,8 +20,10 @@ body {
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-.navbar img {
+.logo {
   width: 50px;
+  height: 50px;
+  border-radius: 50%;
   margin-right: 10px;
 }
 
@@ -57,10 +59,6 @@ body {
   background: #00c853;
 }
 
-.test-btn:hover {
-  background: #009624;
-}
-
 /* Section */
 .section {
   padding: 40px;
@@ -78,40 +76,6 @@ body {
   box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
-/* Gallery */
-.gallery img {
-  width: 300px;
-  margin: 10px;
-  border-radius: 10px;
-}
-
-/* Contact */
-.contact {
-  background: #0d47a1;
-  color: white;
-  padding: 40px;
-}
-
-/* WhatsApp */
-.whatsapp {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  background: #25D366;
-  padding: 15px;
-  border-radius: 50%;
-  color: white;
-  text-decoration: none;
-}
-
-/* Footer */
-.footer {
-  background: black;
-  color: white;
-  text-align: center;
-  padding: 20px;
-}
-
 /* Quiz */
 #quiz-box {
   background: white;
@@ -127,6 +91,14 @@ body {
   color: red;
   font-weight: bold;
 }
+
+/* Footer */
+.footer {
+  background: black;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
 </style>
 </head>
 
@@ -134,7 +106,8 @@ body {
 
 <!-- Navbar -->
 <div class="navbar">
-  <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+  <!-- ✅ FIXED LOGO (Online link so kabhi gayab nahi hoga) -->
+  <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="logo">
   <h2>AREA INDIA FOUNDATION</h2>
 </div>
 
@@ -143,8 +116,10 @@ body {
   <h1>Support Education & Humanity ❤️</h1>
   <p>Research | Assess | Educate | Empower</p>
 
-  <a href="https://razorpay.me/@Areaindiafoundation" class="btn">
-    Donate Now 💰
+  <!-- ✅ UPI DONATE -->
+  <a href="upi://pay?pa=8750752884-2@ibl&pn=AREA%20INDIA%20FOUNDATION&cu=INR"
+     class="btn">
+    Donate via UPI 💰
   </a>
 </div>
 
@@ -157,64 +132,45 @@ body {
   <div class="card">🎯 Skill Development</div>
 </div>
 
-<!-- Mock Test -->
+<!-- ULTRA MOCK TEST -->
 <div class="section">
   <h2>Exam Mock Test</h2>
+
+  <input type="text" id="username" placeholder="Enter Your Name" style="padding:10px;width:80%;margin-bottom:15px;">
 
   <div id="quiz-box">
 
     <div id="timer">Time Left: 60s</div>
 
     <p>1. India ki capital kya hai?</p>
-    <input type="radio" name="q1" value="a"> Mumbai<br>
     <input type="radio" name="q1" value="b"> Delhi<br>
+    <input type="radio" name="q1" value="a"> Mumbai<br>
     <input type="radio" name="q1" value="c"> Kolkata<br>
 
-    <p>2. 5 × 2 = ?</p>
-    <input type="radio" name="q2" value="a"> 10<br>
-    <input type="radio" name="q2" value="b"> 12<br>
-    <input type="radio" name="q2" value="c"> 8<br>
+    <p>2. 10 ÷ 2 = ?</p>
+    <input type="radio" name="q2" value="a"> 5<br>
+    <input type="radio" name="q2" value="b"> 4<br>
+    <input type="radio" name="q2" value="c"> 6<br>
 
-    <p>3. National bird of India?</p>
-    <input type="radio" name="q3" value="a"> Sparrow<br>
-    <input type="radio" name="q3" value="b"> Peacock<br>
-    <input type="radio" name="q3" value="c"> Crow<br>
+    <p>3. National animal?</p>
+    <input type="radio" name="q3" value="b"> Tiger<br>
+    <input type="radio" name="q3" value="a"> Lion<br>
+    <input type="radio" name="q3" value="c"> Dog<br>
 
-    <br><br>
-    <button onclick="submitQuiz()" class="btn test-btn">
-      Submit Test 🚀
-    </button>
+    <br>
+    <button onclick="submitQuiz()" class="btn test-btn">Submit 🚀</button>
 
     <h3 id="result"></h3>
 
   </div>
 </div>
 
-<!-- Gallery -->
-<div class="section gallery">
-  <h2>Our Work</h2>
-
-  <img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d">
-  <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644">
-  <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c">
-</div>
-
-<!-- Contact -->
-<div class="contact">
-  <h2>Contact</h2>
-  <p>📞 8796577598</p>
-  <p>📧 areaindiafoundation@gmail.com</p>
-</div>
-
-<!-- WhatsApp -->
-<a href="https://wa.me/918796577598" class="whatsapp">💬</a>
-
 <!-- Footer -->
 <div class="footer">
   <p>© 2025 AREA INDIA FOUNDATION</p>
 </div>
 
-<!-- JavaScript -->
+<!-- JS -->
 <script>
 let timeLeft = 60;
 
@@ -237,13 +193,12 @@ function submitQuiz() {
   if (document.querySelector('input[name="q2"]:checked')?.value === "a") score++;
   if (document.querySelector('input[name="q3"]:checked')?.value === "b") score++;
 
-  let msg = "Your Score: " + score + "/3 🎯<br>";
+  let name = document.getElementById("username").value;
 
-  if(score==3) msg += "🔥 Excellent!";
-  else if(score==2) msg += "👍 Good!";
-  else msg += "😢 Try Again!";
+  let percent = (score/3)*100;
 
-  document.getElementById("result").innerHTML = msg;
+  document.getElementById("result").innerHTML =
+    "👤 " + name + "<br>Score: " + score + "/3<br>📊 " + percent + "%";
 }
 </script>
 
