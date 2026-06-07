@@ -35,26 +35,33 @@ body {
   background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)),
               url('https://images.unsplash.com/photo-1593113630400-ea4288922497');
   background-size: cover;
+  background-position: center;
   color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 /* Button */
 .btn {
   background: #ff3b3b;
   color: white;
-  padding: 12px 20px;
+  padding: 12px 25px;
   text-decoration: none;
-  border-radius: 25px;
+  border-radius: 30px;
   margin-top: 15px;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #d32f2f;
 }
 
 /* Section */
 .section {
-  padding: 40px;
+  padding: 50px 20px;
   text-align: center;
 }
 
@@ -62,10 +69,25 @@ body {
 .card {
   display: inline-block;
   background: white;
-  padding: 20px;
-  margin: 10px;
-  width: 250px;
-  border-radius: 10px;
+  padding: 25px;
+  margin: 15px;
+  width: 260px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+}
+
+.card h3 {
+  color: #0d47a1;
+}
+
+.card p {
+  font-size: 14px;
+  color: #555;
 }
 
 /* Gallery */
@@ -108,7 +130,8 @@ body {
 
 <!-- Navbar -->
 <div class="navbar">
-  <img src="logo.png">
+  <!-- Agar logo show na ho to image path check karo -->
+  <img src="logo.png" onerror="this.src='https://via.placeholder.com/50'">
   <h2>AREA INDIA FOUNDATION</h2>
 </div>
 
@@ -117,7 +140,7 @@ body {
   <h1>Support Education & Humanity ❤️</h1>
   <p>Research | Assess | Educate | Empower</p>
 
-  <!-- ✅ UPI BUTTON ADDED -->
+  <!-- UPI BUTTON -->
   <a href="upi://pay?pa=8750752884-2@ibl&pn=AreaIndiaFoundation&cu=INR" class="btn">
     Donate via UPI 💰
   </a>
@@ -127,9 +150,20 @@ body {
 <div class="section">
   <h2>What We Do</h2>
 
-  <div class="card">📚 Education Support</div>
-  <div class="card">🏥 Health Programs</div>
-  <div class="card">🎯 Skill Development</div>
+  <div class="card">
+    <h3>📚 Education Support</h3>
+    <p>We provide free education, books and digital learning support to needy children.</p>
+  </div>
+
+  <div class="card">
+    <h3>🏥 Health Programs</h3>
+    <p>We organize medical camps and health awareness programs in rural areas.</p>
+  </div>
+
+  <div class="card">
+    <h3>🎯 Skill Development</h3>
+    <p>We train youth with skills to help them become self-dependent.</p>
+  </div>
 </div>
 
 <!-- Gallery -->
@@ -146,6 +180,7 @@ body {
   <h2>Contact</h2>
   <p>📞 8796577598</p>
   <p>📧 areaindiafoundation@gmail.com</p>
+  <p>💳 UPI: 8750752884-2@ibl</p>
 </div>
 
 <!-- WhatsApp -->
