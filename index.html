@@ -1,74 +1,111 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Area India Foundation</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f4f4f4;
-    }
-    header {
-      background: #2c3e50;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-    section {
-      padding: 20px;
-    }
-    .btn {
-      display: inline-block;
-      padding: 10px 20px;
-      background: #e74c3c;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-    }
-    footer {
-      background: #333;
-      color: white;
-      text-align: center;
-      padding: 10px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Area India Foundation</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* HERO */
+.hero {
+  background: url('https://images.unsplash.com/photo-1524492449090-1d9c8c3d9f7b') center/cover;
+  color: white;
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.hero h1 {
+  font-size: 40px;
+}
+
+.btn {
+  background: #ff3b3b;
+  color: white;
+  padding: 12px 25px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+/* SECTION */
+section {
+  padding: 40px 20px;
+}
+
+/* CARDS */
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.card {
+  flex: 1;
+  min-width: 250px;
+  padding: 20px;
+  background: #f4f4f4;
+  border-radius: 10px;
+}
+
+/* GALLERY */
+.gallery img {
+  width: 100%;
+  max-width: 300px;
+  margin: 10px;
+}
+
+/* FOOTER */
+footer {
+  background: #222;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+</style>
 </head>
+
 <body>
 
-<header>
-  <h1>Area India Foundation</h1>
-  <p>Making India Better Together 🇮🇳</p>
-</header>
-
-<section>
-  <h2>About Us</h2>
-  <p>We are a non-profit organization working for education, healthcare, and social welfare across India.</p>
-</section>
-
-<section>
-  <h2>Our Work</h2>
-  <ul>
-    <li>Education for underprivileged children</li>
-    <li>Healthcare awareness programs</li>
-    <li>Women empowerment initiatives</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Support Us</h2>
-  <p>Your donation helps us make a difference.</p>
+<div class="hero">
+  <h1>Area India Foundation 🇮🇳</h1>
+  <p>Making India Better Together</p>
   <a href="#" class="btn">Donate Now</a>
+</div>
+
+<section>
+<h2>About Us</h2>
+<p>We are a non-profit working for education, healthcare, and social welfare across India.</p>
 </section>
 
 <section>
-  <h2>Contact</h2>
-  <p>Email: your@email.com</p>
+<h2>Our Work</h2>
+<div class="cards">
+  <div class="card">Education for children</div>
+  <div class="card">Healthcare programs</div>
+  <div class="card">Women empowerment</div>
+</div>
+</section>
+
+<section>
+<h2>Gallery</h2>
+<div class="gallery">
+  <img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d">
+  <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f">
+</div>
+</section>
+
+<section>
+<h2>Contact</h2>
+<p>Email: your@email.com</p>
 </section>
 
 <footer>
-  <p>© 2026 Area India Foundation</p>
+<p>© 2026 Area India Foundation</p>
 </footer>
 
 </body>
