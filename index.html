@@ -1,204 +1,189 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AREA INDIA FOUNDATION</title>
+<title>Area India Foundation</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background: #f5f7fa;
+body{
+  margin:0;
+  font-family:Arial;
+  background:#f2f2f2;
 }
 
-/* Navbar */
-.navbar {
-  display: flex;
-  align-items: center;
-  padding: 15px;
-  background: white;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+/* HEADER */
+.header{
+  display:flex;
+  align-items:center;
+  padding:10px;
+  background:white;
 }
 
-.logo {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 10px;
+.logo{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  margin-right:10px;
 }
 
-.navbar h2 {
-  color: #0d47a1;
+.title{
+  font-size:22px;
+  font-weight:bold;
+  color:#1565c0;
 }
 
-/* Hero */
-.hero {
-  height: 90vh;
-  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)),
-              url('https://images.unsplash.com/photo-1593113630400-ea4288922497');
-  background-size: cover;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+/* HERO */
+.hero{
+  position:relative;
+  height:300px;
+  background:url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac') no-repeat center/cover;
+  color:white;
+  text-align:center;
 }
 
-/* Buttons */
-.btn {
-  background: #ff3b3b;
-  color: white;
-  padding: 12px 20px;
-  text-decoration: none;
-  border-radius: 25px;
-  margin-top: 15px;
-  display: inline-block;
+.hero h1{
+  padding-top:80px;
 }
 
-.test-btn {
-  background: #00c853;
+.donate-btn{
+  margin-top:20px;
+  padding:12px 25px;
+  border:none;
+  background:red;
+  color:white;
+  border-radius:25px;
+  font-size:16px;
+  cursor:pointer;
+  animation:pulse 1.5s infinite;
 }
 
-/* Section */
-.section {
-  padding: 40px;
-  text-align: center;
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.1)}
+  100%{transform:scale(1)}
 }
 
-/* Cards */
-.card {
-  display: inline-block;
-  background: white;
-  padding: 25px;
-  margin: 15px;
-  width: 280px;
-  border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+/* CARDS */
+.section{
+  padding:20px;
+  text-align:center;
 }
 
-/* Quiz */
-#quiz-box {
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  max-width: 400px;
-  margin: auto;
-  text-align: left;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+.card{
+  background:white;
+  padding:15px;
+  margin:10px;
+  border-radius:15px;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
 
-#timer {
-  color: red;
-  font-weight: bold;
+.card img{
+  width:40px;
+  height:40px;
 }
 
-/* Footer */
-.footer {
-  background: black;
-  color: white;
-  text-align: center;
-  padding: 20px;
+/* MOCK TEST */
+.test-box{
+  background:white;
+  padding:15px;
+  margin:15px;
+  border-radius:10px;
+}
+
+.timer{
+  color:red;
+  font-weight:bold;
+}
+
+button{
+  padding:10px 20px;
+  background:#1565c0;
+  color:white;
+  border:none;
+  border-radius:5px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- Navbar -->
-<div class="navbar">
-  <!-- ✅ FIXED LOGO (Online link so kabhi gayab nahi hoga) -->
+<!-- HEADER -->
+<div class="header">
   <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="logo">
-  <h2>AREA INDIA FOUNDATION</h2>
+  <div class="title">AREA INDIA FOUNDATION</div>
 </div>
 
-<!-- Hero -->
+<!-- HERO -->
 <div class="hero">
-  <h1>Support Education & Humanity ❤️</h1>
-  <p>Research | Assess | Educate | Empower</p>
-
-  <!-- ✅ UPI DONATE -->
-  <a href="upi://pay?pa=8750752884-2@ibl&pn=AREA%20INDIA%20FOUNDATION&cu=INR"
-     class="btn">
-    Donate via UPI 💰
-  </a>
+  <h1>Support Education ❤️</h1>
+  <p>Research | Educate | Empower</p>
+  <button class="donate-btn" onclick="pay()">Donate via UPI 💰</button>
 </div>
 
-<!-- Work -->
+<!-- WHAT WE DO -->
 <div class="section">
   <h2>What We Do</h2>
 
-  <div class="card">📚 Education Support</div>
-  <div class="card">🏥 Health Programs</div>
-  <div class="card">🎯 Skill Development</div>
-</div>
+  <div class="card">
+    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png">
+    <div>Education Support</div>
+  </div>
 
-<!-- ULTRA MOCK TEST -->
-<div class="section">
-  <h2>Exam Mock Test</h2>
+  <div class="card">
+    <img src="https://cdn-icons-png.flaticon.com/512/2966/2966489.png">
+    <div>Health Programs</div>
+  </div>
 
-  <input type="text" id="username" placeholder="Enter Your Name" style="padding:10px;width:80%;margin-bottom:15px;">
-
-  <div id="quiz-box">
-
-    <div id="timer">Time Left: 60s</div>
-
-    <p>1. India ki capital kya hai?</p>
-    <input type="radio" name="q1" value="b"> Delhi<br>
-    <input type="radio" name="q1" value="a"> Mumbai<br>
-    <input type="radio" name="q1" value="c"> Kolkata<br>
-
-    <p>2. 10 ÷ 2 = ?</p>
-    <input type="radio" name="q2" value="a"> 5<br>
-    <input type="radio" name="q2" value="b"> 4<br>
-    <input type="radio" name="q2" value="c"> 6<br>
-
-    <p>3. National animal?</p>
-    <input type="radio" name="q3" value="b"> Tiger<br>
-    <input type="radio" name="q3" value="a"> Lion<br>
-    <input type="radio" name="q3" value="c"> Dog<br>
-
-    <br>
-    <button onclick="submitQuiz()" class="btn test-btn">Submit 🚀</button>
-
-    <h3 id="result"></h3>
-
+  <div class="card">
+    <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png">
+    <div>Skill Development</div>
   </div>
 </div>
 
-<!-- Footer -->
-<div class="footer">
-  <p>© 2025 AREA INDIA FOUNDATION</p>
+<!-- MOCK TEST -->
+<div class="section">
+  <h2>Exam Mock Test</h2>
+
+  <input type="text" placeholder="Enter Your Name"><br><br>
+
+  <div class="test-box">
+    <div class="timer" id="timer">Time Left: 60s</div>
+
+    <p>1. India ki capital kya hai?</p>
+    <input type="radio" name="q1"> Delhi<br>
+    <input type="radio" name="q1"> Mumbai<br>
+    <input type="radio" name="q1"> Kolkata<br>
+
+    <p>2. 10 ÷ 2 = ?</p>
+    <input type="radio" name="q2"> 5<br>
+    <input type="radio" name="q2"> 4<br>
+    <input type="radio" name="q2"> 6<br>
+
+    <br>
+    <button onclick="submitTest()">Submit</button>
+  </div>
 </div>
 
-<!-- JS -->
 <script>
-let timeLeft = 60;
+function pay(){
+  window.location.href="upi://pay?pa=8750752884-2@ibl&pn=Donation&cu=INR";
+}
 
-let timer = setInterval(function() {
-  document.getElementById("timer").innerHTML = "Time Left: " + timeLeft + "s";
-  timeLeft--;
-
-  if (timeLeft < 0) {
-    clearInterval(timer);
-    submitQuiz();
+// TIMER
+let time=60;
+setInterval(()=>{
+  if(time>0){
+    time--;
+    document.getElementById("timer").innerText="Time Left: "+time+"s";
   }
-}, 1000);
+},1000);
 
-function submitQuiz() {
-  clearInterval(timer);
-
-  let score = 0;
-
-  if (document.querySelector('input[name="q1"]:checked')?.value === "b") score++;
-  if (document.querySelector('input[name="q2"]:checked')?.value === "a") score++;
-  if (document.querySelector('input[name="q3"]:checked')?.value === "b") score++;
-
-  let name = document.getElementById("username").value;
-
-  let percent = (score/3)*100;
-
-  document.getElementById("result").innerHTML =
-    "👤 " + name + "<br>Score: " + score + "/3<br>📊 " + percent + "%";
+function submitTest(){
+  alert("Test Submitted ✅");
 }
 </script>
 
