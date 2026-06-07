@@ -6,6 +6,100 @@
 <title>Area India Foundation</title>
 
 <style>
+  /* 🌟 Global Design */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #f5f7fa;
+}
+
+/* 🔥 Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #d32f2f;
+}
+
+/* 🚀 Hero Section */
+.hero {
+  height: 90vh;
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)),
+              url('https://images.unsplash.com/photo-children-charity');
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  flex-direction: column;
+}
+
+.hero h1 {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 18px;
+}
+
+/* 💎 Button Ultra Style */
+.btn {
+  background: linear-gradient(45deg, #ff416c, #ff4b2b);
+  color: white;
+  padding: 12px 25px;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+  margin-top: 15px;
+}
+
+.btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* 📦 Cards Section */
+.section {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.card {
+  background: white;
+  padding: 25px;
+  margin: 15px;
+  border-radius: 15px;
+  display: inline-block;
+  width: 260px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+}
+
+/* 📞 Contact */
+.contact {
+  background: #d32f2f;
+  color: white;
+  padding: 40px;
+  text-align: center;
+}
   .hero {
   animation: fadeIn 2s ease-in;
 }
@@ -235,3 +329,31 @@ Donate Now
 
 </body>
 </html>
+<!-- 🔥 Navbar -->
+<div class="navbar">
+  <div class="logo">AREA INDIA FOUNDATION</div>
+</div>
+
+<!-- 🚀 Hero -->
+<div class="hero">
+  <h1>Support Humanity ❤️</h1>
+  <p>Together we can make a difference</p>
+  <a href="https://razorpay.me/@Areaindiafoundation" class="btn">
+    Donate Now
+  </a>
+</div>
+
+<!-- 💎 Work Section -->
+<div class="section">
+  <h2>Our Work</h2>
+
+  <div class="card">Education Support 📚</div>
+  <div class="card">Food Distribution 🍛</div>
+  <div class="card">Health Camps 🏥</div>
+</div>
+
+<!-- 📞 Contact -->
+<div class="contact">
+  <h2>Contact Us</h2>
+  <p>📞 8796577598</p>
+</div>
