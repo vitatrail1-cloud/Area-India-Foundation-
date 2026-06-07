@@ -42,7 +42,7 @@ body {
   align-items: center;
 }
 
-/* Button */
+/* Buttons */
 .btn {
   background: #ff3b3b;
   color: white;
@@ -50,6 +50,14 @@ body {
   text-decoration: none;
   border-radius: 25px;
   margin-top: 15px;
+}
+
+.test-btn {
+  background: #00c853;
+}
+
+.test-btn:hover {
+  background: #009624;
 }
 
 /* Section */
@@ -62,10 +70,25 @@ body {
 .card {
   display: inline-block;
   background: white;
-  padding: 20px;
-  margin: 10px;
-  width: 250px;
-  border-radius: 10px;
+  padding: 25px;
+  margin: 15px;
+  width: 280px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+}
+
+.card h3 {
+  color: #0d47a1;
+}
+
+.card p {
+  font-size: 14px;
+  color: #555;
 }
 
 /* Gallery */
@@ -120,15 +143,39 @@ body {
   <a href="https://razorpay.me/@Areaindiafoundation" class="btn">
     Donate Now 💰
   </a>
+
+  <!-- NEW BUTTON -->
+  <a href="#" class="btn test-btn">
+    📝 Exam Mock Test
+  </a>
 </div>
 
 <!-- Work -->
 <div class="section">
   <h2>What We Do</h2>
 
-  <div class="card">📚 Education Support</div>
-  <div class="card">🏥 Health Programs</div>
-  <div class="card">🎯 Skill Development</div>
+  <div class="card">
+    <h3>📚 Education Support</h3>
+    <p>We provide free education, books, and digital learning resources to underprivileged children.</p>
+  </div>
+
+  <div class="card">
+    <h3>🏥 Health Programs</h3>
+    <p>We organize health camps and medical awareness programs for rural communities.</p>
+  </div>
+
+  <div class="card">
+    <h3>🎯 Skill Development</h3>
+    <p>We train youth with practical skills and help them become self-dependent.</p>
+  </div>
+</div>
+
+<!-- Mock Test Section -->
+<div class="section">
+  <h2>Exam Mock Test</h2>
+  <p>Practice free mock tests and improve your skills.</p>
+
+  <a href="#" class="btn test-btn">Start Test 🚀</a>
 </div>
 
 <!-- Gallery -->
