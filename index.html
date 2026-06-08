@@ -27,39 +27,43 @@ color:white;display:flex;flex-direction:column;justify-content:center;align-item
 <a href="#mock" class="btn">Start Test</a>
 
 <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=8750752884-2@ibl"><h3>Total Donation ₹ <span id="donationAmount">0</span></h3>
-</div><div class="section" id="mock">
+</div><!-- MOCK TEST --><div class="section" id="mock">
 <h2>Mock Test</h2>
 <h3>⏱ Time Left: <span id="timer">60</span></h3><div id="quiz"></div><button class="btn" onclick="submitQuiz()">Submit</button>
 
 <h3 id="result"></h3>
 <canvas id="resultChart" width="300"></canvas><h2>🏆 Leaderboard</h2>
 <div id="leaderboard"></div>
-</div><div class="footer">© 2025 AREA INDIA FOUNDATION</div><script>
+</div><div class="contact">
+<p>📞 8796577598</p>
+<p>📧 areaindiafoundation@gmail.com</p>
+<p>UPI: 8750752884-2@ibl</p>
+</div><a href="https://wa.me/918796577598" class="whatsapp">💬</a>
+
+<div class="footer">© 2025 AREA INDIA FOUNDATION</div><script>
 
 // 🔥 FIREBASE CONFIG
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
+  apiKey: "AIzaSyATPwympmjr2Cd---yyunvqeo4RKe5Klm4",
   authDomain: "area-india-foundation.firebaseapp.com",
   databaseURL: "https://area-india-foundation-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "area-india-foundation",
+  projectId: "area-india-foundation"
 };
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// 🔥 DONATION AUTO UPDATE (REALTIME)
+// 🔥 LIVE DONATION UPDATE
 db.ref("donations").on("value", (snapshot) => {
-  let data = snapshot.val() || 0;
-  document.getElementById("donationAmount").innerText = data;
+  document.getElementById("donationAmount").innerText = snapshot.val() || 0;
 });
 
-// DONATE FUNCTION
+// 💰 DONATE BUTTON (FIREBASE)
 function donateNow(){
-let amt=prompt("Enter Amount ₹:");
+let amt = prompt("Enter Amount ₹:");
 if(amt){
-let current=0;
 db.ref("donations").once("value").then(snap=>{
-current = snap.val() || 0;
+let current = snap.val() || 0;
 db.ref("donations").set(current + parseInt(amt));
 });
 }
@@ -85,7 +89,7 @@ quiz.innerHTML+=html;
 });
 }
 
-// SUBMIT QUIZ + SAVE SCORE
+// SUBMIT + SAVE SCORE
 function submitQuiz(){
 let score=0;
 
@@ -94,14 +98,17 @@ let sel=document.querySelector(`input[name=q${i}]:checked`);
 if(sel && sel.value===q.answer) score++;
 });
 
-document.getElementById("result").innerText = "Score: "+score;
+let total = questions.length;
+
+document.getElementById("result").innerText =
+`Score ${score}/${total}`;
 
 let name=prompt("Enter name");
 if(name){
 db.ref("leaderboard").push({name:name,score:score});
 }
 
-showGraph(score,questions.length);
+showGraph(score,total);
 }
 
 // GRAPH
@@ -115,7 +122,7 @@ datasets:[{data:[score,total-score]}]
 });
 }
 
-// 🔥 LEADERBOARD LIVE
+// 🔥 LIVE LEADERBOARD
 function loadLeaderboard(){
 db.ref("leaderboard").on("value", snap=>{
 let data=snap.val() || {};
