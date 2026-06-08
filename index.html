@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +16,7 @@ url('https://images.unsplash.com/photo-1593113630400-ea4288922497');
 color:white;display:flex;flex-direction:column;justify-content:center;align-items:center;
 }
 
-.btn {background:#ff3b3b;color:white;padding:12px 25px;border-radius:30px;margin:10px;text-decoration:none;border:none;}
+.btn {background:#ff3b3b;color:white;padding:12px 25px;border-radius:30px;margin:10px;border:none;}
 .section {padding:40px;text-align:center;}
 .card {background:white;padding:20px;margin:10px;border-radius:10px;display:inline-block;width:260px;}
 .contact {background:#0d47a1;color:white;padding:40px;}
@@ -63,7 +63,6 @@ color:white;display:flex;flex-direction:column;justify-content:center;align-item
 <!-- MOCK TEST -->
 <div class="section" id="mock">
 <h2>Mock Test</h2>
-
 <h3>⏱ Time Left: <span id="timer">60</span></h3>
 
 <div id="quiz"></div>
@@ -71,7 +70,6 @@ color:white;display:flex;flex-direction:column;justify-content:center;align-item
 <button class="btn" onclick="submitQuiz()">Submit</button>
 
 <h3 id="result"></h3>
-
 <canvas id="resultChart" width="300"></canvas>
 
 <h2>🏆 Leaderboard</h2>
@@ -108,10 +106,15 @@ color:white;display:flex;flex-direction:column;justify-content:center;align-item
 
 <script>
 
-// 🔥 FIREBASE CONFIG (ADD YOUR OWN)
+// 🔥 YOUR REAL FIREBASE CONFIG (READY)
 const firebaseConfig = {
-apiKey: "YOUR_API_KEY",
-databaseURL: "YOUR_DB_URL"
+  apiKey: "AIzaSyATPwympmjr2Cd---yyunvqeo4RKe5Klm4",
+  authDomain: "area-india-foundation.firebaseapp.com",
+  databaseURL: "https://area-india-foundation-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "area-india-foundation",
+  storageBucket: "area-india-foundation.firebasestorage.app",
+  messagingSenderId: "287794128321",
+  appId: "1:287794128321:web:f8de20bb66d4b36bc77b40"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -183,10 +186,10 @@ datasets:[{data:[score,total-score]}]
 });
 }
 
-// LEADERBOARD TOP 10
+// LEADERBOARD
 function loadLeaderboard(){
 db.ref("leaderboard").on("value", snap=>{
-let data=snap.val();
+let data=snap.val() || {};
 let arr=[];
 
 for(let id in data){
@@ -210,14 +213,23 @@ document.getElementById("leaderboard").innerHTML=html;
 
 // TIMER
 let time=60;
-setInterval(()=>{
+let timerStarted=false;
+
+function startTimer(){
+if(timerStarted) return;
+timerStarted=true;
+
+let interval=setInterval(()=>{
 time--;
 document.getElementById("timer").innerText=time;
+
 if(time<=0){
+clearInterval(interval);
 submitQuiz();
 alert("Time Up");
 }
 },1000);
+}
 
 // ADMIN
 function addQuestion(){
@@ -250,6 +262,12 @@ saveData(); loadQuiz(); renderAdmin();
 alert("AI Question Added 🤖");
 }
 
+// RESET
+function resetQuiz(){
+localStorage.removeItem("quizData");
+location.reload();
+}
+
 // LOGIN
 const ADMIN_PASSWORD="1234";
 
@@ -257,6 +275,9 @@ function loginAdmin(){
 if(adminPass.value===ADMIN_PASSWORD){
 localStorage.setItem("adminLogin","true");
 document.getElementById("adminPanel").style.display="block";
+alert("Login Success");
+}else{
+alert("Wrong Password");
 }
 }
 
