@@ -9,79 +9,46 @@ body {margin:0;font-family:Arial;background:#f5f7fa;}
 
 .navbar {display:flex;align-items:center;padding:15px;background:white;box-shadow:0 2px 10px rgba(0,0,0,0.1);}
 .navbar img {width:50px;margin-right:10px;}
-.navbar h2 {color:#0d47a1;}
 
 .hero {
   height:90vh;
   background:linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)),
   url('https://images.unsplash.com/photo-1593113630400-ea4288922497');
-  background-size:cover;
-  color:white;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
+  color:white;display:flex;flex-direction:column;justify-content:center;align-items:center;
 }
 
-.btn {
-  background:#ff3b3b;
-  color:white;
-  padding:12px 25px;
-  border-radius:30px;
-  text-decoration:none;
-  margin:10px;
-  display:inline-block;
-}
+.btn {background:#ff3b3b;color:white;padding:12px 25px;border-radius:30px;margin:10px;text-decoration:none;}
 
 .section {padding:40px;text-align:center;}
 
-.card {
-  background:white;
-  padding:20px;
-  margin:10px;
-  border-radius:10px;
-  display:inline-block;
-  width:260px;
-}
+.card {background:white;padding:20px;margin:10px;border-radius:10px;display:inline-block;width:260px;}
 
 .contact {background:#0d47a1;color:white;padding:40px;}
 
 .footer {background:black;color:white;text-align:center;padding:20px;}
 
-.whatsapp {
-  position:fixed;
-  bottom:20px;
-  left:20px;
-  background:#25D366;
-  padding:15px;
-  border-radius:50%;
-  color:white;
-}
+.whatsapp {position:fixed;bottom:20px;left:20px;background:#25D366;padding:15px;border-radius:50%;color:white;}
 </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
 <div class="navbar">
   <img src="logo.png" onerror="this.src='https://via.placeholder.com/50'">
   <h2>AREA INDIA FOUNDATION</h2>
 </div>
 
-<!-- HERO -->
 <div class="hero">
   <h1>Support Education ❤️</h1>
 
   <a href="#" onclick="donateNow()" class="btn">Donate 💰</a>
-  <a href="#mock" class="btn">Start Mock Test</a>
+  <a href="#mock" class="btn">Start Test</a>
 
-  <!-- QR -->
   <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=8750752884-2@ibl" width="150">
 
   <h3>Total Donation ₹ <span id="donationAmount">0</span></h3>
 </div>
 
-<!-- MOCK TEST -->
 <div class="section" id="mock">
   <h2>Mock Test</h2>
   <div id="quiz"></div>
@@ -89,7 +56,6 @@ body {margin:0;font-family:Arial;background:#f5f7fa;}
   <h3 id="result"></h3>
 </div>
 
-<!-- ADMIN -->
 <div class="section">
   <h2>Admin Panel</h2>
 
@@ -107,7 +73,6 @@ body {margin:0;font-family:Arial;background:#f5f7fa;}
   <div id="adminList"></div>
 </div>
 
-<!-- CONTACT -->
 <div class="contact">
   <p>📞 8796577598</p>
   <p>📧 areaindiafoundation@gmail.com</p>
@@ -120,13 +85,12 @@ body {margin:0;font-family:Arial;background:#f5f7fa;}
 
 <script>
 
-// ================= QUESTIONS =================
+// ================= SAFE QUIZ LOAD =================
 let defaultData = [
 {q:"2+2=?",options:["3","4","5","6"],answer:"4"},
 {q:"Capital of India?",options:["Delhi","Mumbai","Kolkata","Chennai"],answer:"Delhi"}
 ];
 
-// SAFE LOAD
 let saved = localStorage.getItem("quizData");
 let questions;
 
@@ -208,7 +172,8 @@ let donation = localStorage.getItem("donation") || 0;
 document.getElementById("donationAmount").innerText = donation;
 
 function donateNow(){
-  let amt = prompt("Enter Amount");
+  alert("UPI ID: 8750752884-2@ibl");
+  let amt = prompt("Enter Amount ₹:");
   if(amt && !isNaN(amt)){
     donation = parseInt(donation) + parseInt(amt);
     localStorage.setItem("donation", donation);
