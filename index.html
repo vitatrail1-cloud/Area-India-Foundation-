@@ -1,178 +1,314 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AREA INDIA FOUNDATION</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
 <style>
-body{font-family:Arial;text-align:center;background:#111;color:#fff}
-button{padding:10px;margin:5px;border:none;border-radius:5px;background:#00ffcc;color:#000;font-weight:bold}
-input{padding:8px;margin:5px}
-.card{background:#222;padding:15px;margin:10px;border-radius:10px}
+body {margin:0;font-family:Arial;background:#f5f7fa;}
+.navbar {display:flex;align-items:center;padding:15px;background:white;box-shadow:0 2px 10px rgba(0,0,0,0.1);}
+.navbar img {width:50px;margin-right:10px;}
+
+.hero {
+height:90vh;
+background:linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)),
+url('https://images.unsplash.com/photo-1593113630400-ea4288922497');
+color:white;display:flex;flex-direction:column;justify-content:center;align-items:center;
+}
+
+.btn {background:#ff3b3b;color:white;padding:12px 25px;border-radius:30px;margin:10px;border:none;}
+.section {padding:40px;text-align:center;}
+.card {background:white;padding:20px;margin:10px;border-radius:10px;display:inline-block;width:260px;}
+.contact {background:#0d47a1;color:white;padding:40px;}
+.footer {background:black;color:white;text-align:center;padding:20px;}
+.whatsapp {position:fixed;bottom:20px;left:20px;background:#25D366;padding:15px;border-radius:50%;color:white;}
 </style>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+<!-- Chart -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
 
-<h1>AREA INDIA FOUNDATION ❤️</h1>
+<div class="navbar">
+<img src="logo.png" onerror="this.src='https://via.placeholder.com/50'">
+<h2>AREA INDIA FOUNDATION</h2>
+</div>
 
-<img src="https://i.ibb.co/7QpKsCX/logo.png" width="120">
+<div class="hero">
+<h1>Support Education ❤️</h1>
 
-<h2>Total Donation ₹ <span id="donation">0</span></h2>
+<button onclick="donateNow()" class="btn">Donate 💰</button>
+<a href="#mock" class="btn">Start Test</a>
 
-<button onclick="donate()">Donate 💰</button>
-<button onclick="startTest()">Start Test</button>
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=8750752884-2@ibl">
 
-<hr>
+<h3>Total Donation ₹ <span id="donationAmount">0</span></h3>
+</div>
 
 <!-- LOGIN -->
-<div class="card">
-<h3>Admin Login 🔐</h3>
-<input type="password" id="pass" placeholder="Enter Password">
-<button onclick="login()">Login</button>
-<button onclick="logout()">Logout</button>
+<div class="section">
+<h2>🔐 Admin Login</h2>
+<input type="password" id="adminPass">
+<br><br>
+<button class="btn" onclick="loginAdmin()">Login</button>
+<button class="btn" onclick="logoutAdmin()">Logout</button>
 </div>
 
 <!-- MOCK TEST -->
-<div class="card">
-<h2>Mock Test ⏱</h2>
+<div class="section" id="mock">
+<h2>Mock Test</h2>
+<h3>⏱ Time Left: <span id="timer">60</span></h3>
+
 <div id="quiz"></div>
-<p>Time Left: <span id="time">60</span></p>
-<button onclick="submitTest()">Submit</button>
+
+<button class="btn" onclick="submitQuiz()">Submit</button>
+
+<h3 id="result"></h3>
+<canvas id="resultChart" width="300"></canvas>
+
+<h2>🏆 Leaderboard</h2>
+<div id="leaderboard"></div>
 </div>
 
-<!-- LEADERBOARD -->
-<div class="card">
-<h2>Leaderboard 🏆</h2>
-<ul id="leaderboard"></ul>
+<!-- ADMIN -->
+<div class="section" id="adminPanel" style="display:none;">
+<h2>Admin Panel</h2>
+
+<input id="question" placeholder="Question"><br><br>
+<input id="opt1" placeholder="Option1"><br><br>
+<input id="opt2" placeholder="Option2"><br><br>
+<input id="opt3" placeholder="Option3"><br><br>
+<input id="opt4" placeholder="Option4"><br><br>
+<input id="answer" placeholder="Correct Answer"><br><br>
+
+<button class="btn" onclick="addQuestion()">Add</button>
+<button class="btn" onclick="generateAIQuestion()">🤖 AI Add</button>
+<button class="btn" onclick="resetQuiz()">Reset Quiz</button>
+
+<div id="adminList"></div>
 </div>
 
-<!-- ADMIN PANEL -->
-<div class="card" id="admin" style="display:none">
-<h2>Admin Panel ⚙️</h2>
-<button onclick="addQuestion()">Add Question</button>
-<button onclick="resetQuiz()">Reset Quiz</button>
+<div class="contact">
+<p>📞 8796577598</p>
+<p>📧 areaindiafoundation@gmail.com</p>
+<p>UPI: 8750752884-2@ibl</p>
 </div>
+
+<a href="https://wa.me/918796577598" class="whatsapp">💬</a>
+
+<div class="footer">© 2025 AREA INDIA FOUNDATION</div>
 
 <script>
 
-// 🔥 FIREBASE CONFIG (APNA DAL)
-var firebaseConfig = {
-apiKey: "YOUR_KEY",
-authDomain: "YOUR_PROJECT.firebaseapp.com",
-databaseURL: "https://YOUR_PROJECT.firebaseio.com",
-projectId: "YOUR_PROJECT",
+// 🔥 YOUR REAL FIREBASE CONFIG (READY)
+const firebaseConfig = {
+  apiKey: "AIzaSyATPwympmjr2Cd---yyunvqeo4RKe5Klm4",
+  authDomain: "area-india-foundation.firebaseapp.com",
+  databaseURL: "https://area-india-foundation-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "area-india-foundation",
+  storageBucket: "area-india-foundation.firebasestorage.app",
+  messagingSenderId: "287794128321",
+  appId: "1:287794128321:web:f8de20bb66d4b36bc77b40"
 };
 
 firebase.initializeApp(firebaseConfig);
-var db = firebase.database();
+const db = firebase.database();
 
-// 🔥 DONATION LIVE UPDATE
-db.ref("donations").on("value", snap=>{
-document.getElementById("donation").innerText = snap.val() || 0;
-});
-
-// 💰 RAZORPAY
-function donate(){
-let amount = prompt("Enter Amount ₹");
-
-var options = {
-"key": "YOUR_RAZORPAY_KEY",
-"amount": amount * 100,
-"currency": "INR",
-"name": "AREA INDIA FOUNDATION",
-"description": "Donation",
-"handler": function () {
-alert("Payment Success ✅");
-// ⚠️ BACKEND SE UPDATE HOGA (SECURE)
-}
-};
-
-new Razorpay(options).open();
-}
-
-// 🔐 LOGIN
-function login(){
-let p = document.getElementById("pass").value;
-if(p==="admin123"){
-document.getElementById("admin").style.display="block";
-alert("Login Success");
-}
-}
-
-function logout(){
-document.getElementById("admin").style.display="none";
-}
-
-// 🧠 QUESTIONS
-let questions = [
-{q:"India capital?",a:"Delhi"},
-{q:"2+2?",a:"4"},
-{q:"Sun rises from?",a:"East"}
+// QUESTIONS
+let defaultData = [
+{q:"2+2=?",options:["3","4","5","6"],answer:"4"},
+{q:"Capital of India?",options:["Delhi","Mumbai","Kolkata","Chennai"],answer:"Delhi"}
 ];
 
+let questions = JSON.parse(localStorage.getItem("quizData")) || defaultData;
+
+function saveData(){
+localStorage.setItem("quizData", JSON.stringify(questions));
+}
+
+// LOAD QUIZ
+function loadQuiz(){
+let quiz=document.getElementById("quiz");
+quiz.innerHTML="";
+questions.forEach((q,i)=>{
+let html=`<div class="card"><h3>${q.q}</h3>`;
+q.options.forEach(opt=>{
+html+=`<label><input type="radio" name="q${i}" value="${opt}">${opt}</label><br>`;
+});
+html+=`</div>`;
+quiz.innerHTML+=html;
+});
+}
+
+// SUBMIT
+function submitQuiz(){
 let score=0;
 
-// SHOW QUIZ
-function loadQuiz(){
-let html="";
 questions.forEach((q,i)=>{
-html+=q.q+"<br><input id='q"+i+"'><br>";
+let sel=document.querySelector(`input[name=q${i}]:checked`);
+if(sel && sel.value===q.answer) score++;
 });
-document.getElementById("quiz").innerHTML=html;
+
+let total = questions.length;
+let percent = (score/total)*100;
+
+let rank="";
+if(percent>=90) rank="🏆 Topper";
+else if(percent>=70) rank="🥇 Excellent";
+else if(percent>=50) rank="👍 Good";
+else rank="📚 Need Improvement";
+
+document.getElementById("result").innerText =
+`Score ${score}/${total} | ${rank}`;
+
+let name=prompt("Enter name");
+if(name){
+db.ref("leaderboard").push({name:name,score:score});
 }
-loadQuiz();
+
+showGraph(score,total);
+}
+
+// GRAPH
+function showGraph(score,total){
+new Chart(document.getElementById("resultChart"),{
+type:'doughnut',
+data:{
+labels:["Correct","Wrong"],
+datasets:[{data:[score,total-score]}]
+}
+});
+}
+
+// LEADERBOARD
+function loadLeaderboard(){
+db.ref("leaderboard").on("value", snap=>{
+let data=snap.val() || {};
+let arr=[];
+
+for(let id in data){
+arr.push(data[id]);
+}
+
+arr.sort((a,b)=>b.score-a.score);
+
+let html="";
+arr.slice(0,10).forEach((item,index)=>{
+html+=`<div class="card">
+🏅 Rank ${index+1}<br>
+👤 ${item.name}<br>
+🎯 ${item.score}
+</div>`;
+});
+
+document.getElementById("leaderboard").innerHTML=html;
+});
+}
 
 // TIMER
 let time=60;
-setInterval(()=>{
+let timerStarted=false;
+
+function startTimer(){
+if(timerStarted) return;
+timerStarted=true;
+
+let interval=setInterval(()=>{
 time--;
-document.getElementById("time").innerText=time;
-if(time<=0) submitTest();
+document.getElementById("timer").innerText=time;
+
+if(time<=0){
+clearInterval(interval);
+submitQuiz();
+alert("Time Up");
+}
 },1000);
-
-// SUBMIT
-function submitTest(){
-score=0;
-questions.forEach((q,i)=>{
-let ans=document.getElementById("q"+i).value;
-if(ans.toLowerCase()==q.a.toLowerCase()) score++;
-});
-
-alert("Score: "+score);
-
-// SAVE LEADERBOARD
-let name=prompt("Enter Name");
-db.ref("leaderboard").push({name,score});
 }
 
-// 🏆 LOAD LEADERBOARD
-db.ref("leaderboard").on("value",snap=>{
-let data=snap.val();
-let html="";
-for(let id in data){
-html+=`<li>${data[id].name} - ${data[id].score}</li>`;
-}
-document.getElementById("leaderboard").innerHTML=html;
-});
-
-// ⚙️ ADMIN
+// ADMIN
 function addQuestion(){
-let q=prompt("Question?");
-let a=prompt("Answer?");
-questions.push({q,a});
-loadQuiz();
+questions.push({
+q:question.value,
+options:[opt1.value,opt2.value,opt3.value,opt4.value],
+answer:answer.value
+});
+saveData(); loadQuiz(); renderAdmin();
 }
 
-function resetQuiz(){
-questions=[];
-loadQuiz();
+function renderAdmin(){
+let list=document.getElementById("adminList");
+list.innerHTML="";
+questions.forEach(q=>{
+list.innerHTML+=`<div class="card">${q.q}</div>`;
+});
 }
+
+// AI QUESTION
+function generateAIQuestion(){
+let sample=[
+{q:"5+5=?",options:["10","11","12","13"],answer:"10"},
+{q:"Sun rises from?",options:["East","West","North","South"],answer:"East"}
+];
+
+let random=sample[Math.floor(Math.random()*sample.length)];
+questions.push(random);
+saveData(); loadQuiz(); renderAdmin();
+alert("AI Question Added 🤖");
+}
+
+// RESET
+function resetQuiz(){
+localStorage.removeItem("quizData");
+location.reload();
+}
+
+// LOGIN
+const ADMIN_PASSWORD="1234";
+
+function loginAdmin(){
+if(adminPass.value===ADMIN_PASSWORD){
+localStorage.setItem("adminLogin","true");
+document.getElementById("adminPanel").style.display="block";
+alert("Login Success");
+}else{
+alert("Wrong Password");
+}
+}
+
+function logoutAdmin(){
+localStorage.removeItem("adminLogin");
+document.getElementById("adminPanel").style.display="none";
+}
+
+// DONATION
+let donation=localStorage.getItem("donation")||0;
+document.getElementById("donationAmount").innerText=donation;
+
+function donateNow(){
+let amt=prompt("Enter Amount ₹:");
+if(amt){
+donation=parseInt(donation)+parseInt(amt);
+localStorage.setItem("donation",donation);
+location.reload();
+}
+}
+
+// INIT
+window.onload=()=>{
+loadQuiz();
+renderAdmin();
+loadLeaderboard();
+
+if(localStorage.getItem("adminLogin")==="true"){
+document.getElementById("adminPanel").style.display="block";
+}
+};
 
 </script>
 
