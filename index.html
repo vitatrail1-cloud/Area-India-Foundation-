@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -6,7 +6,6 @@
 
 <style>
 body {margin:0;font-family:Arial;background:#f5f7fa;}
-
 .navbar {display:flex;align-items:center;padding:15px;background:white;box-shadow:0 2px 10px rgba(0,0,0,0.1);}
 .navbar img {width:50px;margin-right:10px;}
 
@@ -18,17 +17,17 @@ body {margin:0;font-family:Arial;background:#f5f7fa;}
 }
 
 .btn {background:#ff3b3b;color:white;padding:12px 25px;border-radius:30px;margin:10px;text-decoration:none;}
-
 .section {padding:40px;text-align:center;}
-
 .card {background:white;padding:20px;margin:10px;border-radius:10px;display:inline-block;width:260px;}
-
 .contact {background:#0d47a1;color:white;padding:40px;}
-
 .footer {background:black;color:white;text-align:center;padding:20px;}
-
 .whatsapp {position:fixed;bottom:20px;left:20px;background:#25D366;padding:15px;border-radius:50%;color:white;}
 </style>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
+
 </head>
 
 <body>
@@ -40,23 +39,35 @@ body {margin:0;font-family:Arial;background:#f5f7fa;}
 
 <div class="hero">
   <h1>Support Education ❤️</h1>
-
   <a href="#" onclick="donateNow()" class="btn">Donate 💰</a>
   <a href="#mock" class="btn">Start Test</a>
 
   <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=8750752884-2@ibl" width="150">
-
   <h3>Total Donation ₹ <span id="donationAmount">0</span></h3>
 </div>
 
+<!-- LOGIN -->
+<div class="section">
+  <h2>🔐 Admin Login</h2>
+  <input type="password" id="adminPass" placeholder="Enter Password"><br><br>
+  <button class="btn" onclick="loginAdmin()">Login</button>
+  <button class="btn" onclick="logoutAdmin()">Logout</button>
+</div>
+
+<!-- MOCK TEST -->
 <div class="section" id="mock">
   <h2>Mock Test</h2>
+  <h3>⏱ Time Left: <span id="timer">60</span> sec</h3>
   <div id="quiz"></div>
   <button class="btn" onclick="submitQuiz()">Submit</button>
   <h3 id="result"></h3>
+
+  <h2>🏆 Leaderboard</h2>
+  <div id="leaderboard"></div>
 </div>
 
-<div class="section">
+<!-- ADMIN PANEL -->
+<div class="section" id="adminPanel" style="display:none;">
   <h2>Admin Panel</h2>
 
   <input id="question" placeholder="Question"><br><br>
@@ -80,26 +91,27 @@ body {margin:0;font-family:Arial;background:#f5f7fa;}
 </div>
 
 <a href="https://wa.me/918796577598" class="whatsapp">💬</a>
-
 <div class="footer">© 2025 AREA INDIA FOUNDATION</div>
 
 <script>
 
-// ================= SAFE QUIZ LOAD =================
+// 🔥 FIREBASE CONFIG (REPLACE WITH YOUR OWN)
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// QUIZ DATA
 let defaultData = [
 {q:"2+2=?",options:["3","4","5","6"],answer:"4"},
 {q:"Capital of India?",options:["Delhi","Mumbai","Kolkata","Chennai"],answer:"Delhi"}
 ];
 
-let saved = localStorage.getItem("quizData");
-let questions;
-
-try{
-  questions = saved ? JSON.parse(saved) : defaultData;
-  if(!Array.isArray(questions)) questions = defaultData;
-}catch{
-  questions = defaultData;
-}
+let questions = JSON.parse(localStorage.getItem("quizData")) || defaultData;
 
 function saveData(){
   localStorage.setItem("quizData", JSON.stringify(questions));
@@ -107,7 +119,7 @@ function saveData(){
 
 // LOAD QUIZ
 function loadQuiz(){
-  let quiz = document.getElementById("quiz");
+  let quiz=document.getElementById("quiz");
   quiz.innerHTML="";
   questions.forEach((q,i)=>{
     let html=`<div class="card"><h3>${q.q}</h3>`;
@@ -119,78 +131,104 @@ function loadQuiz(){
   });
 }
 
-// SUBMIT
+// SUBMIT QUIZ
 function submitQuiz(){
   let score=0;
   questions.forEach((q,i)=>{
     let sel=document.querySelector(`input[name=q${i}]:checked`);
     if(sel && sel.value===q.answer) score++;
   });
+
   document.getElementById("result").innerText="Score "+score+"/"+questions.length;
+
+  let name=prompt("Enter your name:");
+  if(name){
+    db.ref("leaderboard").push({name:name,score:score});
+  }
 }
 
-// ADD
+// LEADERBOARD
+function loadLeaderboard(){
+  db.ref("leaderboard").on("value", snap=>{
+    let data=snap.val();
+    let html="";
+    for(let id in data){
+      html+=`<div class="card">${data[id].name} - ${data[id].score}</div>`;
+    }
+    document.getElementById("leaderboard").innerHTML=html;
+  });
+}
+
+// TIMER
+let time=60;
+function startTimer(){
+  setInterval(()=>{
+    time--;
+    document.getElementById("timer").innerText=time;
+    if(time<=0){
+      submitQuiz();
+      alert("Time Up!");
+    }
+  },1000);
+}
+
+// ADMIN
 function addQuestion(){
-  let q=question.value;
-  let o1=opt1.value,o2=opt2.value,o3=opt3.value,o4=opt4.value;
-  let ans=answer.value;
-
-  if(!q||!o1||!o2||!o3||!o4||!ans){alert("Fill all");return;}
-
-  questions.push({q:q,options:[o1,o2,o3,o4],answer:ans});
-  saveData();
-  renderAdmin();
-  loadQuiz();
+  questions.push({
+    q:question.value,
+    options:[opt1.value,opt2.value,opt3.value,opt4.value],
+    answer:answer.value
+  });
+  saveData(); loadQuiz(); renderAdmin();
 }
 
-// DELETE
-function deleteQ(i){
-  questions.splice(i,1);
-  saveData();
-  renderAdmin();
-  loadQuiz();
-}
-
-// ADMIN VIEW
 function renderAdmin(){
   let list=document.getElementById("adminList");
   list.innerHTML="";
   questions.forEach((q,i)=>{
-    list.innerHTML+=`<div class="card">${q.q}<br>
-    <button onclick="deleteQ(${i})">Delete</button></div>`;
+    list.innerHTML+=`<div class="card">${q.q}</div>`;
   });
 }
 
-// RESET QUIZ
-function resetQuiz(){
-  localStorage.removeItem("quizData");
-  location.reload();
+// LOGIN SYSTEM
+const ADMIN_PASSWORD="1234";
+
+function loginAdmin(){
+  if(adminPass.value===ADMIN_PASSWORD){
+    localStorage.setItem("adminLogin","true");
+    document.getElementById("adminPanel").style.display="block";
+    alert("Login Success");
+  }else alert("Wrong Password");
 }
 
-// ================= DONATION =================
-let donation = localStorage.getItem("donation") || 0;
-document.getElementById("donationAmount").innerText = donation;
+function logoutAdmin(){
+  localStorage.removeItem("adminLogin");
+  document.getElementById("adminPanel").style.display="none";
+}
+
+// DONATION
+let donation=localStorage.getItem("donation")||0;
+document.getElementById("donationAmount").innerText=donation;
 
 function donateNow(){
-  alert("UPI ID: 8750752884-2@ibl");
-  let amt = prompt("Enter Amount ₹:");
-  if(amt && !isNaN(amt)){
-    donation = parseInt(donation) + parseInt(amt);
-    localStorage.setItem("donation", donation);
-    document.getElementById("donationAmount").innerText = donation;
-    alert("Thank You ❤️");
+  let amt=prompt("Enter Amount ₹:");
+  if(amt){
+    donation=parseInt(donation)+parseInt(amt);
+    localStorage.setItem("donation",donation);
+    location.reload();
   }
 }
 
-function resetDonation(){
-  localStorage.removeItem("donation");
-  location.reload();
-}
-
 // INIT
-window.onload = ()=>{
+window.onload=()=>{
   loadQuiz();
   renderAdmin();
+  loadLeaderboard();
+  startTimer();
+
+  if(localStorage.getItem("adminLogin")==="true"){
+    document.getElementById("adminPanel").style.display="block";
+  }
 };
 
 </script>
